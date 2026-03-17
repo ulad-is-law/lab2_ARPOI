@@ -1,0 +1,35 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.Test;
+import java.time.Duration;
+import static org.testng.Assert.*;
+
+public class JQueryUIMenusTest extends BaseTest {
+    @Test
+    public void testHoverAndClickPDF() throws InterruptedException {
+        driver.get(BASE_URL + "/jqueryui/menu");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        Actions actions = new Actions(driver);
+
+        WebElement enabled = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(.,'Enabled')]")));
+        actions.moveToElement(enabled).perform();
+        Thread.sleep(300);
+
+        WebElement downloads = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(.,'Downloads')]")));
+        actions.moveToElement(downloads).perform();
+        Thread.sleep(500);
+
+        WebElement pdf = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='PDF']")));
+        assertTrue(pdf.getAttribute("href").contains("pdf"));
+        actions.moveToElement(pdf).click().perform();
+    }
+
+    @Test
+    public void testEnabledMenuItemVisible() {
+        driver.get(BASE_URL + "/jqueryui/menu");
+        assertTrue(driver.findElement(By.xpath("//a[contains(.,'Enabled')]")).isDisplayed());
+    }
+}

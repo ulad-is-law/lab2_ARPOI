@@ -1,0 +1,42 @@
+package pages;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import java.util.List;
+
+public class SearchPage {
+    private final WebDriver driver;
+
+    public SearchPage(WebDriver driver) { this.driver = driver; }
+
+    public void open() {
+        driver.get("https://www.sharelane.com/cgi-bin/search.py");
+    }
+
+    public void search(String keyword) {
+        driver.get("https://www.sharelane.com/cgi-bin/search.py?keyword=" + keyword);
+    }
+
+    public int getResultsCount() {
+        return driver.findElements(By.cssSelector("a[href*='./add_to_cart.py")).size();
+    }
+
+    public boolean hasNoKeywordError() {
+        return driver.getPageSource().contains("No keyword is provided");
+    }
+
+    public boolean hasNothingFoundError() {
+        return driver.getPageSource().contains("Nothing found");
+    }
+
+    public void clickFirstResult() {
+        WebElement result = driver.findElement(By.cssSelector("a[href*='./add_to_cart.py']"));
+        result.click();
+    }
+
+    public void clickSecondResult() {
+        List<WebElement> results = driver.findElements(By.cssSelector("a[href*='./add_to_cart.py']"));
+        if (results.size() >= 2) results.get(1).click();
+    }
+}

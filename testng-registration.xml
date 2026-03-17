@@ -1,0 +1,57 @@
+package pages;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
+public class RegisterPage {
+    private final WebDriver driver;
+
+    public RegisterPage(WebDriver driver) { this.driver = driver; }
+
+    public void enterZip(String zip) {
+        driver.get("https://www.sharelane.com/cgi-bin/register.py?page=1&zip_code=" + zip);
+    }
+
+    public void register(String firstName, String lastName, String email, String pass1, String pass2) {
+        try {
+            String encodedEmail = URLEncoder.encode(email, StandardCharsets.UTF_8);
+            driver.get("https://www.sharelane.com/cgi-bin/register.py?page=2" +
+                    "&zip_code=12345" +
+                    "&first_name=" + firstName +
+                    "&last_name=" + lastName +
+                    "&email=" + encodedEmail +
+                    "&password1=" + pass1 +
+                    "&password2=" + pass2);
+        } catch (Exception e) {
+            throw new RuntimeException("Ошибка URL-кодирования: " + e.getMessage());
+        }
+    }
+
+    public boolean isSuccess() {
+        return driver.getPageSource().contains("Account is created!");
+    }
+
+    public static class Credentials {
+        public String email;
+        public String password;
+
+        public Credentials(String email, String password) {
+            this.email = email;
+            this.password = password;
+        }
+    }
+    public Credentials getNewCreds() {
+        String email = driver.findElement(
+                By.xpath("//td[text()='Email']/following-sibling::td/b")).getText();
+        String password = driver.findElement(
+                By.xpath("//td[text()='Password']/following-sibling::td")).getText();
+
+        return new Credentials(email, password);
+    }
+
+    public boolean isZipInvalid() {
+        return driver.getPageSource().contains("Oops");
+    }
+}

@@ -1,0 +1,30 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="AllTests" parallel="classes" thread-count="3">
+    <test name="BasicAuth">
+        <classes><class name="BasicAuthTest"/></classes>
+    </test>
+    <test name="Dropdown">
+        <classes><class name="DropdownTest"/></classes>
+    </test>
+    <test name="DynamicControls">
+        <classes><class name="DynamicControlsTest"/></classes>
+    </test>
+    <test name="ExitIntent">
+        <classes><class name="ExitIntentTest"/></classes>
+    </test>
+    <test name="FormAuthentication">
+        <classes><class name="FormAuthenticationTest"/></classes>
+    </test>
+    <test name="Frames">
+        <classes><class name="FramesTest"/></classes>
+    </test>
+    <test name="JQueryUIMenus">
+        <classes><class name="JQueryUIMenusTest"/></classes>
+    </test>
+    <test name="JavaScriptAlerts">
+        <classes><class name="JavaScriptAlertsTest"/></classes>
+    </test>
+    <test name="MultipleWindows">
+        <classes><class name="MultipleWindowsTest"/></classes>
+    </test>
+</suite>

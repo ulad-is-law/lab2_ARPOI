@@ -1,0 +1,27 @@
+package pages;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+public class BookPage {
+    private final WebDriver driver;
+    private final By addToCartButton = By.cssSelector("input[type='submit']");
+
+    public BookPage(WebDriver driver) { this.driver = driver; }
+
+    public boolean hasTitle() {
+        return driver.getTitle() != null && !driver.getTitle().trim().isEmpty();
+    }
+
+    public boolean canAddToCart() {
+        return !driver.findElements(addToCartButton).isEmpty();
+    }
+
+    public void addToCart() {
+        driver.findElement(addToCartButton).click();
+    }
+
+    public boolean isAddedToCart() {
+        return driver.getPageSource().toLowerCase().contains("shopping cart");
+    }
+}

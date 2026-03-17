@@ -1,0 +1,17 @@
+package pages;
+
+import org.openqa.selenium.WebDriver;
+
+public class MainPage {
+    private final WebDriver driver;
+
+    public MainPage(WebDriver driver) { this.driver = driver; }
+
+    public void open() {
+        driver.get("https://www.sharelane.com/cgi-bin/main.py");
+    }
+
+    public boolean isOpen() {
+        return driver.getPageSource().toLowerCase().contains("sharelane");
+    }
+}

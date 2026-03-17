@@ -1,0 +1,28 @@
+import org.openqa.selenium.By;
+import org.testng.annotations.Test;
+import java.util.ArrayList;
+import static org.testng.Assert.*;
+
+public class MultipleWindowsTest extends BaseTest {
+    @Test
+    public void testNewWindowOpens() {
+        driver.get(BASE_URL + "/windows");
+        driver.findElement(By.linkText("Click Here")).click();
+        ArrayList<String> handles = new ArrayList<>(driver.getWindowHandles());
+        assertEquals(handles.size(), 2);
+        driver.switchTo().window(handles.get(1));
+        assertEquals(driver.getTitle(), "New Window");
+    }
+
+    @Test
+    public void testSwitchBackToOriginal() {
+        driver.get(BASE_URL + "/windows");
+        String original = driver.getWindowHandle();
+        driver.findElement(By.linkText("Click Here")).click();
+        ArrayList<String> handles = new ArrayList<>(driver.getWindowHandles());
+        driver.switchTo().window(handles.get(1));
+        driver.close();
+        driver.switchTo().window(original);
+        assertEquals(driver.getTitle(), "The Internet");
+    }
+}
